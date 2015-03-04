@@ -2,7 +2,11 @@ extends layout
 
 block content
  h2 Questions
-  ol
+ if user
+  p #{user.profile.name}
+ else
+  p This would show my name
+ ol
     li Did you look at porn yesterday?
       a.btn.btn-default(href='#', role='button') No
       a.btn.btn-default(href='#', role='button') Maybe
