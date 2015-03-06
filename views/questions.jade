@@ -7,6 +7,7 @@ block content
   else
     p This would show my name
   form.form-horizontal(role='form', method='POST')
+    input(type='hidden', name='_csrf', value=_csrf)
     ol
       li Did you look at porn yesterday?
         input(type="radio", name="porn", value="1")
