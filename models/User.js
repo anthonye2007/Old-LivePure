@@ -25,7 +25,7 @@ var userSchema = new mongoose.Schema({
   resetPasswordToken: String,
   resetPasswordExpires: Date,
 
-  questions: Array
+  questions: [{name: String, text: String, answers: [String]}]
 });
 
 /**

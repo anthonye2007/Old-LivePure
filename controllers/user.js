@@ -89,9 +89,9 @@ exports.postSignup = function(req, res, next) {
 
   // initialize questions
   user.questions = [];
-  user.questions.push({text: 'Did you look at porn yesterday?', name: 'porn'});
-  user.questions.push({text: 'Did you masterbate yesterday?', name: 'masterbate'});
-  user.questions.push({text: 'Did you work on memorizing yesterday?', name: 'memorize'});
+  user.questions.push({text: 'Did you look at porn yesterday?', name: 'porn', answers: []});
+  user.questions.push({text: 'Did you masterbate yesterday?', name: 'masterbate', answers: []});
+  user.questions.push({text: 'Did you work on memorizing yesterday?', name: 'memorize', answers: []});
 
   User.findOne({ email: req.body.email }, function(err, existingUser) {
     if (existingUser) {
@@ -377,20 +377,54 @@ exports.getQuestions = function(req, res) {
  * POST /questions
  * Display questions.
  */
-exports.postQuestions = function(req, res) {
+exports.postQuestions = function(req, res, next) {
   req.assert('porn', 'porn cannot be blank').notEmpty();
   req.assert('masterbate', 'masterbate cannot be blank').notEmpty();
   req.assert('memorize', 'Memorize cannot be blank').notEmpty();
   console.log("Got post!");
 
   var answers = req.body;
-  console.log("Porn: " + answers.porn);
   console.log(answers);
+  console.log("ID: " + req.user.id);
 
   // TODO store answers in database
 
-  res.render('answers', {
-    title: 'Answers',
-    answers: answers
-  })
+  User.findById(req.user.id, function(err, user) {
+    if (err) return next(err);
+
+    console.log("Email: " + user.email);
+    // get the name of an answer
+    var names = Object.keys(answers);
+    names.forEach(function (answerName) {
+      user.questions.forEach(function (question) {
+        // find matching question
+        console.log("Answer: " + answerName + "\tquestion: " + question.name);
+        if (answerName === question.name) {
+          // ensure question has answer array
+          if (question.answers === false) {
+            question.answers = [];
+            console.log("Initializing answers for: " + question.name);
+          }
+
+          // append answer to answer array
+          var answerValue = answers[answerName];
+          question.answers.push(answerValue);
+          console.log("Appending " + answerValue + " from " + answerName + " to " + question.name);
+        }
+      });
+    });
+
+
+    console.log("Trying to save user");
+    user.save(function(err) {
+      if (err) return next(err);
+      console.log("Saved user");
+      req.flash('success', { msg: 'Saved answers to database' });
+      res.render('answers', {
+        title: 'Answers',
+        answers: answers
+      });
+    });
+  });
+
 };
