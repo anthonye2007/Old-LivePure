@@ -110,8 +110,8 @@ app.post('/account/profile', passportConf.isAuthenticated, userController.postUp
 app.post('/account/password', passportConf.isAuthenticated, userController.postUpdatePassword);
 app.post('/account/delete', passportConf.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConf.isAuthenticated, userController.getOauthUnlink);
-app.get('/questions', questionsController.questions);
-app.post('/questions', questionsController.postQuestions);
+app.get('/questions', userController.getQuestions);
+app.post('/questions', userController.postQuestions);
 
 /**
  * API examples routes.

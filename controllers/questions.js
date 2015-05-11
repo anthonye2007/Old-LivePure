@@ -22,6 +22,8 @@ exports.postQuestions = function(req, res) {
   console.log("Porn: " + answers.porn);
   console.log(answers);
 
+  // TODO store answers in database
+
   res.render('answers', {
     title: 'Answers',
     answers: answers

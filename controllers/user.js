@@ -87,6 +87,12 @@ exports.postSignup = function(req, res, next) {
     password: req.body.password
   });
 
+  // initialize questions
+  user.questions = [];
+  user.questions.push({text: 'Did you look at porn yesterday?', name: 'porn'});
+  user.questions.push({text: 'Did you masterbate yesterday?', name: 'masterbate'});
+  user.questions.push({text: 'Did you work on memorizing yesterday?', name: 'memorize'});
+
   User.findOne({ email: req.body.email }, function(err, existingUser) {
     if (existingUser) {
       req.flash('errors', { msg: 'Account with that email address already exists.' });
@@ -355,4 +361,36 @@ exports.postForgot = function(req, res, next) {
     if (err) return next(err);
     res.redirect('/forgot');
   });
+};
+
+/**
+ * GET /questions
+ * Questions.
+ */
+exports.getQuestions = function(req, res) {
+  res.render('questions', {
+    title: 'Questions'
+  });
+};
+
+/**
+ * POST /questions
+ * Display questions.
+ */
+exports.postQuestions = function(req, res) {
+  req.assert('porn', 'porn cannot be blank').notEmpty();
+  req.assert('masterbate', 'masterbate cannot be blank').notEmpty();
+  req.assert('memorize', 'Memorize cannot be blank').notEmpty();
+  console.log("Got post!");
+
+  var answers = req.body;
+  console.log("Porn: " + answers.porn);
+  console.log(answers);
+
+  // TODO store answers in database
+
+  res.render('answers', {
+    title: 'Answers',
+    answers: answers
+  })
 };
