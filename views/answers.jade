@@ -5,5 +5,8 @@ block content
 
   if answers
      p Porn: #{answers.porn}
+     ul
+       each answer in Object.keys(answers)
+         li #{answer}: #{answers[answer]}
   else
      p Did not get answers
