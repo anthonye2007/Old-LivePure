@@ -17,6 +17,13 @@ exports.postQuestions = function(req, res) {
   req.assert('masterbate', 'masterbate cannot be blank').notEmpty();
   req.assert('memorize', 'Memorize cannot be blank').notEmpty();
   console.log("Got post!");
-  console.log("Porn: " + req.params('porn'));
-  console.log(req.params);
+
+  var answers = req.body;
+  console.log("Porn: " + answers.porn);
+  console.log(answers);
+
+  res.render('answers', {
+    title: 'Answers',
+    answers: answers
+  })
 };
