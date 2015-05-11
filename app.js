@@ -28,7 +28,6 @@ var homeController = require('./controllers/home');
 var userController = require('./controllers/user');
 var apiController = require('./controllers/api');
 var contactController = require('./controllers/contact');
-var questionsController = require('./controllers/questions');
 
 /**
  * API keys and Passport configuration.
