@@ -4,9 +4,9 @@ block content
   h2 Thanks for answering!
 
   if answers
-     p Porn: #{answers.porn}
      ul
        each answer in Object.keys(answers)
-         li #{answer}: #{answers[answer]}
+         unless (answer.charAt(0) == '_')
+           li #{answer}: #{answers[answer]}
   else
      p Did not get answers
