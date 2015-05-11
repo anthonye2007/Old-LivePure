@@ -4,18 +4,12 @@ block content
   h2 Questions
   if user
     p #{user.profile.name}
-    p #{user.questions[0]}
   else
     p This would show my name
   form.form-horizontal(role='form', method='POST')
-    // this data should be pulled from the database
-    - questions = []
-    - questions.push({text: 'Did you look at porn yesterday?', name: 'porn'})
-    - questions.push({text: 'Did you masterbate yesterday?', name: 'masterbate'})
-    - questions.push({text: 'Did you work on memorizing yesterday?', name: 'memorize'})
     input(type='hidden', name='_csrf', value=_csrf)
     ol
-      each q in questions
+      each q in user.questions
         li #{q.text}
           input(type="radio", name='#{q.name}', value="no")
           | No
