@@ -387,8 +387,6 @@ exports.postQuestions = function(req, res, next) {
   console.log(answers);
   console.log("ID: " + req.user.id);
 
-  // TODO store answers in database
-
   User.findById(req.user.id, function(err, user) {
     if (err) return next(err);
 
@@ -408,7 +406,11 @@ exports.postQuestions = function(req, res, next) {
 
           // append answer to answer array
           var answerValue = answers[answerName];
-          question.answers.push(answerValue);
+          //var time = Math.floor(new Date() / 1000); // seconds since epoch
+          var obj = { date: new Date(), value: answerValue};
+
+          question.answers.push(obj);
+
           console.log("Appending " + answerValue + " from " + answerName + " to " + question.name);
         }
       });

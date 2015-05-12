@@ -29,7 +29,10 @@ var userSchema = new mongoose.Schema({
     [{
       name: String,
       text: String,
-      answers: [String]
+      answers: [{
+        value: String,
+        date: Date
+      }]
     }]
 
 
