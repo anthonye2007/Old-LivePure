@@ -38,11 +38,27 @@ exports.postLogin = function(req, res, next) {
       req.flash('errors', { msg: info.message });
       return res.redirect('/login');
     }
-    req.logIn(user, function(err) {
-      if (err) return next(err);
-      req.flash('success', { msg: 'Success! You are logged in.' });
-      res.redirect(req.session.returnTo || '/');
-    });
+
+    console.log(user);
+    if (user.questions === undefined || user.questions === null || user.questions.length < 1) {
+      initializeQuestions(user);
+      user.save(function(err) {
+        if (err) return next(err);
+        req.logIn(user, function(err) {
+          if (err) return next(err);
+          req.flash('success', { msg: 'Success! Logged in and initialized questions.'});
+          res.redirect('/');
+        });
+      });
+    } else {
+      req.logIn(user, function(err) {
+        if (err) return next(err);
+
+        req.flash('success', { msg: 'Success! You are logged in.' });
+        res.redirect(req.session.returnTo || '/');
+      });
+    }
+
   })(req, res, next);
 };
 
@@ -87,11 +103,7 @@ exports.postSignup = function(req, res, next) {
     password: req.body.password
   });
 
-  // initialize questions
-  user.questions = [];
-  user.questions.push({text: 'Did you look at porn yesterday?', name: 'porn', answers: []});
-  user.questions.push({text: 'Did you masterbate yesterday?', name: 'masterbate', answers: []});
-  user.questions.push({text: 'Did you work on memorizing yesterday?', name: 'memorize', answers: []});
+  initializeQuestions(user);
 
   User.findOne({ email: req.body.email }, function(err, existingUser) {
     if (existingUser) {
@@ -106,6 +118,14 @@ exports.postSignup = function(req, res, next) {
       });
     });
   });
+};
+
+var initializeQuestions = function(user) {
+  console.log("Initializing questions");
+  user.questions = [];
+  user.questions.push({text: 'Did you look at porn yesterday?', name: 'porn', answers: []});
+  user.questions.push({text: 'Did you masterbate yesterday?', name: 'masterbate', answers: []});
+  user.questions.push({text: 'Did you work on memorizing yesterday?', name: 'memorize', answers: []});
 };
 
 /**
