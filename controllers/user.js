@@ -122,10 +122,18 @@ exports.postSignup = function(req, res, next) {
 
 var initializeQuestions = function(user) {
   console.log("Initializing questions");
+
+  var questions = [
+    {text: 'Did you look at porn yesterday?', name: 'porn'},
+    {text: 'Did you masterbate yesterday?', name: 'masterbate'},
+    {text: 'Did you work on memorizing yesterday?', name: 'memorize'}
+  ];
+
   user.questions = [];
-  user.questions.push({text: 'Did you look at porn yesterday?', name: 'porn', answers: []});
-  user.questions.push({text: 'Did you masterbate yesterday?', name: 'masterbate', answers: []});
-  user.questions.push({text: 'Did you work on memorizing yesterday?', name: 'memorize', answers: []});
+
+  questions.forEach(function(q) {
+    user.questions.push({text: q.text, name: q.name, answers: []});
+  });
 };
 
 /**
