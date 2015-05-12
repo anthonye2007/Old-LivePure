@@ -39,7 +39,6 @@ exports.postLogin = function(req, res, next) {
       return res.redirect('/login');
     }
 
-    console.log(user);
     if (user.questions === undefined || user.questions === null || user.questions.length < 1) {
       initializeQuestions(user);
       user.save(function(err) {
@@ -121,8 +120,6 @@ exports.postSignup = function(req, res, next) {
 };
 
 var initializeQuestions = function(user) {
-  console.log("Initializing questions");
-
   var questions = [
     {text: 'Did you look at porn yesterday?', name: 'porn'},
     {text: 'Did you masterbate yesterday?', name: 'masterbate'},
@@ -409,27 +406,21 @@ exports.postQuestions = function(req, res, next) {
   req.assert('porn', 'porn cannot be blank').notEmpty();
   req.assert('masterbate', 'masterbate cannot be blank').notEmpty();
   req.assert('memorize', 'Memorize cannot be blank').notEmpty();
-  console.log("Got post!");
 
   var answers = req.body;
-  console.log(answers);
-  console.log("ID: " + req.user.id);
 
   User.findById(req.user.id, function(err, user) {
     if (err) return next(err);
 
-    console.log("Email: " + user.email);
     // get the name of an answer
     var names = Object.keys(answers);
     names.forEach(function (answerName) {
       user.questions.forEach(function (question) {
         // find matching question
-        console.log("Answer: " + answerName + "\tquestion: " + question.name);
         if (answerName === question.name) {
           // ensure question has answer array
           if (question.answers === false) {
             question.answers = [];
-            console.log("Initializing answers for: " + question.name);
           }
 
           // append answer to answer array
@@ -438,17 +429,13 @@ exports.postQuestions = function(req, res, next) {
           var obj = { date: new Date(), value: answerValue};
 
           question.answers.push(obj);
-
-          console.log("Appending " + answerValue + " from " + answerName + " to " + question.name);
         }
       });
     });
 
 
-    console.log("Trying to save user");
     user.save(function(err) {
       if (err) return next(err);
-      console.log("Saved user");
       req.flash('success', { msg: 'Saved answers to database' });
       res.render('answers', {
         title: 'Answers',
