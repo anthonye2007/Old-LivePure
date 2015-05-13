@@ -142,7 +142,8 @@ var initializeQuestions = function(user) {
     { text: 'How healthily did you eat yesterday?', name: 'eating', type: "MC special",
       possibleAnswers: ['poor', 'fine', 'well'] },
     { text: 'How was your relationship with your spouse yesterday?', name: 'spouse', type: "MC special",
-      possibleAnswers: ['poor', 'fine', 'well'] }
+      possibleAnswers: ['poor', 'fine', 'well'] },
+    { text: 'Did you exercise yesterday?', name: 'exercise', type: "MC" }
   ];
 
   user.questions = [];
