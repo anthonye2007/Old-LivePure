@@ -121,15 +121,16 @@ exports.postSignup = function(req, res, next) {
 
 var initializeQuestions = function(user) {
   var questions = [
-    {text: 'Did you look at porn yesterday?', name: 'porn'},
-    {text: 'Did you masterbate yesterday?', name: 'masterbate'},
-    {text: 'Did you work on memorizing yesterday?', name: 'memorize'}
+    {text: 'Did you look at porn yesterday?', name: 'porn', failure: true, type: "MC", weight: 1 },
+    {text: 'Did you masterbate yesterday?', name: 'masterbate', failure: true, type: "MC", weight: 1 },
+    {text: 'Did you work on memorizing yesterday?', name: 'memorize', growth: true, type: "MC", weight: 0.5 }
   ];
 
   user.questions = [];
 
   questions.forEach(function(q) {
-    user.questions.push({text: q.text, name: q.name, answers: []});
+    q.answers = [];
+    user.questions.push(q);
   });
 };
 
@@ -407,6 +408,17 @@ exports.postQuestions = function(req, res, next) {
   req.assert('masterbate', 'masterbate cannot be blank').notEmpty();
   req.assert('memorize', 'Memorize cannot be blank').notEmpty();
 
+  var determineMajorFailure = function(question) {
+    return true;
+  };
+
+  var determineMinorFailure = function(question) {
+    return true;
+  };
+
+  var majorFailure = false;
+  var minorFailure = false;
+
   var answers = req.body;
 
   User.findById(req.user.id, function(err, user) {
@@ -423,9 +435,17 @@ exports.postQuestions = function(req, res, next) {
             question.answers = [];
           }
 
+          var major = determineMajorFailure(question);
+          if (major) {
+            majorFailure = true;
+          }
+          var minor = determineMinorFailure(question);
+          if (minor) {
+            minorFailure = true;
+          }
+
           // append answer to answer array
           var answerValue = answers[answerName];
-          //var time = Math.floor(new Date() / 1000); // seconds since epoch
           var obj = { date: new Date(), value: answerValue};
 
           question.answers.push(obj);
@@ -433,13 +453,21 @@ exports.postQuestions = function(req, res, next) {
       });
     });
 
+    var summary = "All good!";
+    if (majorFailure) {
+      summary = "Major failure";
+    } else if (minorFailure) {
+      summary = "Minor failure";
+    }
+
 
     user.save(function(err) {
       if (err) return next(err);
       req.flash('success', { msg: 'Saved answers to database' });
       res.render('answers', {
         title: 'Answers',
-        answers: answers
+        answers: answers,
+        summary: summary
       });
     });
   });

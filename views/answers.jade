@@ -3,6 +3,8 @@ extends layout
 block content
   h2 Thanks for answering!
 
+  p Summary: #{summary}
+
   if answers
      ul
        each answer in Object.keys(answers)
