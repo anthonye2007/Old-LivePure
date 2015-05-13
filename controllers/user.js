@@ -408,16 +408,30 @@ exports.postQuestions = function(req, res, next) {
   req.assert('masterbate', 'masterbate cannot be blank').notEmpty();
   req.assert('memorize', 'Memorize cannot be blank').notEmpty();
 
-  var determineMajorFailure = function(question) {
-    return true;
+  var determineMajorFailure = function(question, answer) {
+    if (!question.failure) return false; // only failure questions can cause major failure
+
+    if (question.type === "MC" && answer === "yes") return true;
+
+    return false;
   };
 
-  var determineMinorFailure = function(question) {
-    return true;
+  var determineMinorFailure = function(question, answer) {
+    // currently only applies to growth questions
+    if (question.growth && question.type === "MC" && answer === "no") return true;
+
+    return false;
+  };
+
+  var determineGrayArea = function(question, answer) {
+    if (question.type === "MC" && answer.toLowerCase().indexOf("gray") > -1) return true;
+
+    return false;
   };
 
   var majorFailure = false;
   var minorFailure = false;
+  var grayArea = false;
 
   var answers = req.body;
 
@@ -435,17 +449,22 @@ exports.postQuestions = function(req, res, next) {
             question.answers = [];
           }
 
-          var major = determineMajorFailure(question);
+          // append answer to answer array
+          var answerValue = answers[answerName];
+
+          var major = determineMajorFailure(question, answerValue);
           if (major) {
             majorFailure = true;
           }
-          var minor = determineMinorFailure(question);
+          var minor = determineMinorFailure(question, answerValue);
           if (minor) {
             minorFailure = true;
           }
+          var gray = determineGrayArea(question, answerValue);
+          if (gray) {
+            grayArea = true;
+          }
 
-          // append answer to answer array
-          var answerValue = answers[answerName];
           var obj = { date: new Date(), value: answerValue};
 
           question.answers.push(obj);
@@ -453,11 +472,24 @@ exports.postQuestions = function(req, res, next) {
       });
     });
 
-    var summary = "All good!";
+    var summary = null;
     if (majorFailure) {
-      summary = "Major failure";
+      summary = "Major failure.";
     } else if (minorFailure) {
-      summary = "Minor failure";
+      summary = "Minor failure.";
+    }
+
+    if (grayArea) {
+      var grayAreaText = 'Had a gray area.';
+      if (summary == null) {
+        summary = grayAreaText;
+      } else {
+        summary += " " + grayAreaText;
+      }
+    }
+
+    if (summary == null) {
+      summary = "All good!";
     }
 
 
