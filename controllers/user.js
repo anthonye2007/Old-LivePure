@@ -121,9 +121,18 @@ exports.postSignup = function(req, res, next) {
 
 var initializeQuestions = function(user) {
   var questions = [
-    {text: 'Did you look at porn yesterday?', name: 'porn', failure: true, type: "MC", weight: 1 },
-    {text: 'Did you masterbate yesterday?', name: 'masterbate', failure: true, type: "MC", weight: 1 },
-    {text: 'Did you work on memorizing yesterday?', name: 'memorize', growth: true, type: "MC", weight: 0.5 }
+    // Failures
+    { text: 'Did you look at porn yesterday?', name: 'porn', failure: true, type: "MC" },
+    { text: 'Did you masterbate yesterday?', name: 'masterbate', failure: true, type: "MC" },
+    { text: 'Did you cross any boundaries yesterday?', name: 'boundaries', failure: true, type: "MC" },
+
+
+    // Growth
+    { text: 'Did you work on memorizing yesterday?', name: 'memorize', growth: true, type: "MC" },
+    { text: 'Did you read the Bible yesterday?', name: 'read', growth: true, type: "MC" },
+    { text: 'Did you pray for others yesterday?', name: 'pray-others', growth: true, type: "MC" },
+    { text: 'Did you ask God for help in your battle against sexual sin yesterday?',
+        name: 'pray-self', growth: true, type: "MC" }
   ];
 
   user.questions = [];

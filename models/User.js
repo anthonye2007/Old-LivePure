@@ -32,7 +32,6 @@ var userSchema = new mongoose.Schema({
       failure: { type: Boolean, required: false },
       growth: { type: Boolean, required: false },
       type: { type: String, required: true, default: 'MC' }, // Likert, short answer, multiple choice
-      weight: { type: Number, required: true, default: 0.5 }, // from 0 to 1
       answers: [{
         value: { type: String, required: true, default: '' },
         date: { type: Date, required: true, default: '0' }
