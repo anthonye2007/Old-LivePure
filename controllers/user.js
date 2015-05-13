@@ -143,7 +143,15 @@ var initializeQuestions = function(user) {
       possibleAnswers: ['poor', 'fine', 'well'] },
     { text: 'How was your relationship with your spouse yesterday?', name: 'spouse', type: "MC special",
       possibleAnswers: ['poor', 'fine', 'well'] },
-    { text: 'Did you exercise yesterday?', name: 'exercise', type: "MC" }
+    { text: 'Did you exercise yesterday?', name: 'exercise', type: "MC" },
+
+    // Positive reinforcement
+    { text: "Talk about a time you overcame temptation yesterday.", name: 'overcame', type: 'freetext' },
+
+    // Heart questions
+    { text: "What is a recent thought about Christ that you have been appreciating?",
+        name: 'christ', type: 'freetext' },
+    { text: "Talk about a time yesterday when you helped someone", name: 'helped', type: 'freetext' }
   ];
 
   user.questions = [];

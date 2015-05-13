@@ -20,6 +20,8 @@ block content
           each answer in q.possibleAnswers
             input(type="radio", name='#{q.name}', value="#{answer}")
             | #{answer}
+        if q.type == "freetext"
+          textarea(name="#{q.name}")
 
     button.btn.btn-primary(type='submit')
       span.ion-paper-airplane
