@@ -2,10 +2,6 @@ extends layout
 
 block content
   h2 Questions
-  if user
-    p #{user.profile.name}
-  else
-    p This would show my name
   form.form-horizontal(role='form', method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
     ol
