@@ -132,7 +132,11 @@ var initializeQuestions = function(user) {
     { text: 'Did you read the Bible yesterday?', name: 'read', growth: true, type: "MC" },
     { text: 'Did you pray for others yesterday?', name: 'pray-others', growth: true, type: "MC" },
     { text: 'Did you ask God for help in your battle against sexual sin yesterday?',
-        name: 'pray-self', growth: true, type: "MC" }
+        name: 'pray-self', growth: true, type: "MC" },
+
+    // General
+    { text: 'What was your stress level yesterday?', name: 'stress', type: "MC special",
+        possibleAnswers: ['low', 'moderate', 'high'] }
   ];
 
   user.questions = [];

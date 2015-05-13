@@ -5,14 +5,22 @@ block content
   form.form-horizontal(role='form', method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
     ol
+      // seperate failure, spiritual, general?
       each q in user.questions
         li #{q.text}
-          input(type="radio", name='#{q.name}', value="no")
-          | No
-          input(type="radio", name='#{q.name}', value="gray")
-          | Gray area
-          input(type="radio", name='#{q.name}', value="yes")
-          | Yes
+
+        if q.type == "MC"
+            input(type="radio", name='#{q.name}', value="no")
+            | No
+            input(type="radio", name='#{q.name}', value="gray")
+            | Gray area
+            input(type="radio", name='#{q.name}', value="yes")
+            | Yes
+        if q.type == "MC special"
+          each answer in q.possibleAnswers
+            input(type="radio", name='#{q.name}', value="#{answer}")
+            | #{answer}
+
     button.btn.btn-primary(type='submit')
       span.ion-paper-airplane
       | Send
