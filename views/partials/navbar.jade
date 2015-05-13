@@ -13,6 +13,8 @@
       ul.nav.navbar-nav
         li(class=title=='Questions'?'active':undefined)
           a(href='/questions') Questions
+        li(class=title=='Yesterday'?'active':undefined)
+          a(href='/yesterday') Yesterday
       ul.nav.navbar-nav.navbar-right
         if !user
           li(class=title=='Login'?'active':undefined)

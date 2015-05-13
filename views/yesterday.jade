@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h1 Yesterday's Answers
+
+  h3 Date: #{date}
+
+  each qAndA in questionsAndAnswers
+    p Q: #{qAndA.question}
+    p A: #{qAndA.answer}
