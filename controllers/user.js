@@ -136,7 +136,13 @@ var initializeQuestions = function(user) {
 
     // General
     { text: 'What was your stress level yesterday?', name: 'stress', type: "MC special",
-        possibleAnswers: ['low', 'moderate', 'high'] }
+        possibleAnswers: ['low', 'moderate', 'high'] },
+    { text: 'How well did you sleep the night before?', name: 'sleep', type: "MC special",
+      possibleAnswers: ['poor', 'fine', 'well'] },
+    { text: 'How healthily did you eat yesterday?', name: 'eating', type: "MC special",
+      possibleAnswers: ['poor', 'fine', 'well'] },
+    { text: 'How was your relationship with your spouse yesterday?', name: 'spouse', type: "MC special",
+      possibleAnswers: ['poor', 'fine', 'well'] }
   ];
 
   user.questions = [];
