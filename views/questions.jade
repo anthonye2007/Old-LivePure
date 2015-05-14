@@ -4,24 +4,26 @@ block content
   h2 Questions
   form.form-horizontal(role='form', method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
-    // seperate failure, spiritual, general?
     .container
       each q in user.questions
         .row
           .col-sm-4
             label(class='control-label', for='#{q.text}') #{q.text}
 
+            //
+               TODO space to left of MC names
+               TODO separate colors for odd/even rows
           .form-group
             if q.type == "MC"
               .col-sm-2
                 input(type="radio", name='#{q.name}', value="no")
-                | No
+                | no
               .col-sm-2
                 input(type="radio", name='#{q.name}', value="gray")
-                | Gray area
+                | gray area
               .col-sm-2
                 input(type="radio", name='#{q.name}', value="yes")
-                | Yes
+                | yes
             if q.type == "MC special"
               each answer in q.possibleAnswers
                 .col-sm-2
