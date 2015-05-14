@@ -4,26 +4,33 @@ block content
   h2 Questions
   form.form-horizontal(role='form', method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
-    ol
-      // seperate failure, spiritual, general?
+    // seperate failure, spiritual, general?
+    .container
       each q in user.questions
-        label(class='col-sm-4 control-label', for='#{q.text}') #{q.text}
+        .row
+          .col-sm-4
+            label(class='control-label', for='#{q.text}') #{q.text}
 
-        .form-group
-          if q.type == "MC"
-              input(type="radio", name='#{q.name}', value="no")
-              | No
-              input(type="radio", name='#{q.name}', value="gray")
-              | Gray area
-              input(type="radio", name='#{q.name}', value="yes")
-              | Yes
-          if q.type == "MC special"
-            each answer in q.possibleAnswers
-              input(type="radio", name='#{q.name}', value="#{answer}")
-              | #{answer}
-          if q.type == "freetext"
-            textarea(name="#{q.name}")
+          .form-group
+            if q.type == "MC"
+              .col-sm-2
+                input(type="radio", name='#{q.name}', value="no")
+                | No
+              .col-sm-2
+                input(type="radio", name='#{q.name}', value="gray")
+                | Gray area
+              .col-sm-2
+                input(type="radio", name='#{q.name}', value="yes")
+                | Yes
+            if q.type == "MC special"
+              each answer in q.possibleAnswers
+                .col-sm-2
+                  input(type="radio", name='#{q.name}', value="#{answer}")
+                  | #{answer}
+            if q.type == "freetext"
+              .col-sm-4
+                textarea(name="#{q.name}" class="freeformTextAnswer")
 
-    button.btn.btn-primary(type='submit')
-      span.ion-paper-airplane
-      | Send
+      button.btn.btn-primary(type='submit')
+        span.ion-paper-airplane
+        | Send
