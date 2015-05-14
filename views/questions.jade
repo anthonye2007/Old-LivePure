@@ -7,21 +7,22 @@ block content
     ol
       // seperate failure, spiritual, general?
       each q in user.questions
-        li #{q.text}
+        label(class='col-sm-4 control-label', for='#{q.text}') #{q.text}
 
-        if q.type == "MC"
-            input(type="radio", name='#{q.name}', value="no")
-            | No
-            input(type="radio", name='#{q.name}', value="gray")
-            | Gray area
-            input(type="radio", name='#{q.name}', value="yes")
-            | Yes
-        if q.type == "MC special"
-          each answer in q.possibleAnswers
-            input(type="radio", name='#{q.name}', value="#{answer}")
-            | #{answer}
-        if q.type == "freetext"
-          textarea(name="#{q.name}")
+        .form-group
+          if q.type == "MC"
+              input(type="radio", name='#{q.name}', value="no")
+              | No
+              input(type="radio", name='#{q.name}', value="gray")
+              | Gray area
+              input(type="radio", name='#{q.name}', value="yes")
+              | Yes
+          if q.type == "MC special"
+            each answer in q.possibleAnswers
+              input(type="radio", name='#{q.name}', value="#{answer}")
+              | #{answer}
+          if q.type == "freetext"
+            textarea(name="#{q.name}")
 
     button.btn.btn-primary(type='submit')
       span.ion-paper-airplane
