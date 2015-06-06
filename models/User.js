@@ -19,6 +19,7 @@ var userSchema = new mongoose.Schema({
     gender: { type: String, default: '' },
     location: { type: String, default: '' },
     website: { type: String, default: '' },
+    mentor: { type: String, lowercase: true },
     picture: { type: String, default: '' }
   },
 

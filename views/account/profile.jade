@@ -7,6 +7,10 @@ block content
   form.form-horizontal(action='/account/profile', method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
     .form-group
+      label.col-sm-2.control-label(for='mentor') Mentor's email
+      .col-sm-4
+        input.form-control(type='email', name='mentor', id='mentor', value='#{user.profile.mentor}')
+    .form-group
       label.col-sm-2.control-label(for='email') Email
       .col-sm-4
         input.form-control(type='email', name='email', id='email', value='#{user.email}')
