@@ -22,3 +22,8 @@ This should start the server in development mode on port 3000
 
 ## Production
 - run `sudo PORT=80 NODE_ENV=production npm start`
+
+## Run permanently
+- install forever (npm install -g forever)
+- run forever as a service
+  - forever start app.js
